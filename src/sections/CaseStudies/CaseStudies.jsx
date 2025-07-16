@@ -42,7 +42,7 @@ const caseStudies = [
 
 const CaseStudies = () => {
   return (
-    <section className="bg-white text-black py-24 px-6">
+    <section id= "case-studies" className="bg-white text-black py-24 px-6">
       <div className="max-w-6xl mx-auto space-y-20">
         <div className="text-center">
           <Heading

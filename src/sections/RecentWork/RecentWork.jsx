@@ -21,7 +21,7 @@ const works = [
 
 const RecentWork = () => {
   return (
-    <section className="bg-white text-black py-24 px-6">
+    <section id="recent-work" className="bg-white text-black py-24 px-6">
       <div className="max-w-6xl mx-auto space-y-16">
 
         {/* Başlık */}

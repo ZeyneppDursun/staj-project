@@ -1,12 +1,18 @@
 //components/common/AppBar.jsx
 
-const AppBar = () => {
+const AppBar = ({menus=[
+          { name: "Zeynep"},
+          { name: "Tunahan"},
+          { name: "Testimonials"},
+          { name: "Recent Work"},
+          { name: "Get In Touch" }
+        ]}) => {
   return (
     <nav className="flex items-center px-8 py-4 bg-[#262627] border-b border-gray-700">
       <div className="flex flex-grow justify-center space-x-12">
-        {["Home", "Case Studies", "Testimonials", "Recent Work", "Get In Touch"].map(link => (
-          <a key={link} href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
-            {link}
+        {menus.map(link => (
+          <a key={link.name} className="text-gray-300 hover:text-white transition-colors text-sm">
+            {link.name}
           </a>
         ))}
       </div>

@@ -6,7 +6,7 @@ import FooterNote from './components/FooterNote';
 
 const GetInTouch = () => {
   return (
-    <section className="bg-black text-white py-24 px-6">
+    <section id="get-in-touch" className="bg-black text-white py-24 px-6">
       <div className="max-w-2xl mx-auto space-y-12 text-center">
         <Heading
           title="Get In Touch"
