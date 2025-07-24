@@ -1,6 +1,6 @@
 import Avatar from '../../../components/common/Avatar';
 
-const TestimonialCard = ({ name, text, image }) => {
+const TestimonialCard = ({ name, text, image}) => {
   return (
     <div className="relative border border-gray-700 rounded-xl p-6 bg-zinc-900">
       {/* Tırnak işareti */}
@@ -16,7 +16,7 @@ const TestimonialCard = ({ name, text, image }) => {
       {/* Avatar ve isim */}
       <div className="flex items-center space-x-4">
         <Avatar src={image} alt={name} />
-        <p className="font-semibold">{name}</p>
+        <p name="font-semibold">{name}</p>
       </div>
     </div>
   );
