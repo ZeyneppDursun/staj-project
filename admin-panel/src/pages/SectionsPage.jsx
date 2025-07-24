@@ -1,20 +1,10 @@
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
-
-const GET_SECTIONS = gql`
-  query {
-    sections(order_by: { id: asc }) {
-      id
-      name
-      title
-      subtitle
-      image
-      button
-    }
-  }
-`
+import { useNavigate } from 'react-router-dom'
+import { GET_SECTIONS } from '../lib/graphql'
 
 function SectionsPage() {
+  const navigate = useNavigate()
   const { loading, error, data } = useQuery(GET_SECTIONS)
 
   if (loading) return <p className="p-4 text-center text-gray-500">Loading...</p>
@@ -77,7 +67,7 @@ function SectionsPage() {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => alert(`Edit section: ${section.id}`)}
+                    onClick={() => navigate(`/edit-section/${section.id}`)}
                     className="inline-flex items-center gap-1 px-3 py-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded shadow-sm transition"
                   >
                     <PencilSquareIcon className="w-4 h-4" />
