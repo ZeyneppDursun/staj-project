@@ -1,0 +1,3 @@
+table:
+  name: cards
+  schema: public
