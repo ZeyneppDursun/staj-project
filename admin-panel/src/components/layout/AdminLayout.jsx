@@ -1,4 +1,4 @@
-import Sidebar from './Sidebar'
+/*import Sidebar from './Sidebar'
 import Header from './Header'
 
 function AdminLayout({ children }) {
@@ -16,3 +16,24 @@ function AdminLayout({ children }) {
 }
 
 export default AdminLayout
+*/
+
+
+
+import { Outlet } from 'react-router-dom'
+import Sidebar from './Sidebar'
+import Header from './Header'
+
+export default function AdminLayout() {
+  return (
+    <div className="flex min-h-screen">
+      <Sidebar />
+      <div className="flex flex-col flex-grow">
+        <Header />
+        <main className="p-6 bg-gray-100 flex-grow">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  )
+}

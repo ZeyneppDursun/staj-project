@@ -1,20 +1,10 @@
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
-
-const GET_SECTIONS = gql`
-  query {
-    sections(order_by: { id: asc }) {
-      id
-      name
-      title
-      subtitle
-      image
-      button
-    }
-  }
-`
+import { useNavigate } from 'react-router-dom'
+import { GET_SECTIONS } from '../lib/graphql'
 
 function SectionsPage() {
+  const navigate = useNavigate()
   const { loading, error, data } = useQuery(GET_SECTIONS)
 
   if (loading) return <p className="p-4 text-center text-gray-500">Loading...</p>
@@ -22,8 +12,16 @@ function SectionsPage() {
   if (!data || !data.sections) return <p className="p-4">No data found</p>
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 p-6 relative">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Sections</h1>
+
+      {/* Sağ üst köşeye ekle butonu */}
+      <button
+        onClick={() => navigate('/add-section')}
+        className="absolute top-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md transition"
+      >
+        Ekle
+      </button>
 
       <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
         <table className="min-w-full table-auto text-sm text-left text-gray-700">
@@ -40,12 +38,12 @@ function SectionsPage() {
           </thead>
           <tbody>
             {data.sections.map((section, idx) => (
-                <tr
+              <tr
                 key={section.id}
                 className={`cursor-pointer hover:bg-gray-100 ${
-                    idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                  idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                 }`}
-                >
+              >
                 <td className="px-6 py-4 whitespace-nowrap">{section.id}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{section.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{section.title}</td>
@@ -77,7 +75,7 @@ function SectionsPage() {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => alert(`Edit section: ${section.id}`)}
+                    onClick={() => navigate(`/edit-section/${String(section.id)}`)}
                     className="inline-flex items-center gap-1 px-3 py-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded shadow-sm transition"
                   >
                     <PencilSquareIcon className="w-4 h-4" />
