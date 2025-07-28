@@ -14,6 +14,15 @@ function Sidebar() {
         >
           Sections
         </NavLink>
+        <NavLink
+          to="/cards"
+          className={({ isActive }) =>
+            `block px-4 py-2 rounded transition 
+            ${isActive ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800'}`
+          }
+        >
+          Cards
+        </NavLink>
         {/* Başka sayfalar */}
       </nav>
     </div>
