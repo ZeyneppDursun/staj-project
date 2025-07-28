@@ -1,40 +1,9 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { useState, useEffect } from 'react';
-import { GET_SECTIONS } from '../lib/graphql';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { ADD_SECTION, GET_SECTIONS } from '../lib/graphql';
 
-const GET_SECTION_BY_ID = gql`
-  query GetSectionById($id: uuid!) {
-    sections_by_pk(id: $id) {
-      id
-      name
-      title
-      subtitle
-      image
-      button
-    }
-  }
-`;
-
-const UPDATE_SECTION = gql`
-  mutation UpdateSection($id: uuid!, $name: String, $title: String, $subtitle: String, $image: String, $button: String) {
-    update_sections_by_pk(
-      pk_columns: { id: $id },
-      _set: {
-        name: $name,
-        title: $title,
-        subtitle: $subtitle,
-        image: $image,
-        button: $button
-      }
-    ) {
-      id
-    }
-  }
-`;
-
-function EditSectionPage() {
-  const { id } = useParams();
+function AddSectionPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -44,17 +13,9 @@ function EditSectionPage() {
     button: '',
   });
 
-  const { data, loading, error } = useQuery(GET_SECTION_BY_ID, {
-    variables: { id },
+  const [addSection, { loading: addLoading }] = useMutation(ADD_SECTION, {
+    refetchQueries: [{ query: GET_SECTIONS }],
   });
-
-  const [updateSection, { loading: updateLoading }] = useMutation(UPDATE_SECTION);
-
-  useEffect(() => {
-    if (data && data.sections_by_pk) {
-      setFormData(data.sections_by_pk);
-    }
-  }, [data]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,36 +24,44 @@ function EditSectionPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { __typename, id: sectionId, ...updateData } = formData;
+    
+    // Name alanının dolu olduğunu kontrol et (zorunlu alan)
+    if (!formData.name.trim()) {
+      alert('Name field is required!');
+      return;
+    }
+
     try {
-      await updateSection({
+      const result = await addSection({
         variables: {
-          id: id,
-          ...updateData,
+          // UUID ID otomatik oluşturulacak
+          ...formData,
         },
-        refetchQueries: [{ query: GET_SECTIONS }],
       });
+      
+      console.log('Section added successfully:', result.data);
       navigate('/');
     } catch (err) {
-      console.error('Error updating section:', err);
+      console.error('Error adding section:', err);
+      alert('Error adding section: ' + err.message);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Edit Section</h1>
+      <h1 className="text-3xl font-bold mb-6">Add Section</h1>
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            Name <span className="text-red-500">*</span>
+          </label>
           <input
             type="text"
             name="name"
             id="name"
             value={formData.name}
             onChange={handleChange}
+            required
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
@@ -121,22 +90,24 @@ function EditSectionPage() {
         <div className="mb-4">
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image URL</label>
           <input
-            type="text"
+            type="url"
             name="image"
             id="image"
             value={formData.image}
             onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div className="mb-4">
           <label htmlFor="button" className="block text-sm font-medium text-gray-700">Button URL</label>
           <input
-            type="text"
+            type="url"
             name="button"
             id="button"
             value={formData.button}
             onChange={handleChange}
+            placeholder="https://example.com"
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
@@ -150,10 +121,10 @@ function EditSectionPage() {
           </button>
           <button
             type="submit"
-            disabled={updateLoading}
+            disabled={addLoading}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-blue-300"
           >
-            {updateLoading ? 'Saving...' : 'Save'}
+            {addLoading ? 'Adding...' : 'Add'}
           </button>
         </div>
       </form>
@@ -161,4 +132,5 @@ function EditSectionPage() {
   );
 }
 
-export default EditSectionPage;
+export default AddSectionPage;
+
