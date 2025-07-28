@@ -1,17 +1,19 @@
 //components/common/AppBar.jsx
 
-const AppBar = ({menus=[
-          { name: "Zeynep"},
-          { name: "Tunahan"},
-          { name: "Testimonials"},
-          { name: "Recent Work"},
-          { name: "Get In Touch" }
-        ]}) => {
+const AppBar = ({
+  menus = [
+    { name: "Home", href: "#home" },
+    { name: "CaseStudies", href: "#casestudies" },
+    { name: "Testimonials", href: "#testimonials" },
+    { name: "RecentWork", href: "#recentwork" },
+    { name: "GetInTouch", href: "#getintouch" },
+  ],
+}) => {
   return (
     <nav className="flex items-center px-8 py-4 bg-[#262627] border-b border-gray-700">
       <div className="flex flex-grow justify-center space-x-12">
         {menus.map(link => (
-          <a key={link.name} className="text-gray-300 hover:text-white transition-colors text-sm">
+          <a key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm">
             {link.name}
           </a>
         ))}
@@ -19,7 +21,7 @@ const AppBar = ({menus=[
 
       <div className="flex space-x-5">
         {/* LinkedIn */}
-        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
           <svg
             className="w-5 h-5 text-gray-300 hover:text-white transition"
             fill="currentColor"
@@ -32,7 +34,7 @@ const AppBar = ({menus=[
         </a>
 
         {/* Instagram */}
-        <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
           <svg
             className="w-6 h-6 text-gray-300 hover:text-white transition -translate-y-0.5"
             fill="currentColor"
@@ -46,7 +48,7 @@ const AppBar = ({menus=[
 
 
         {/* Twitter */}
-        <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.twitter.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
           <svg
             className="w-5 h-5 text-gray-300 hover:text-white transition"
             fill="currentColor"

@@ -2,7 +2,7 @@
 
 import Button from '../../../components/common/Button';
 
-const ContactForm = () => {
+const ContactForm = ({button}) => {
   return (
     <form className="space-y-6 text-left">
       <div>
@@ -40,8 +40,9 @@ const ContactForm = () => {
         className="w-full bg-[#3F8E00] hover:bg-[#348e00cb] text-white py-2 font-semibold rounded transition-colors"
         style={{ filter: "drop-shadow(0 4px 6px rgba(98, 186, 27, 0.7))" }}
       >
-        Submit &gt;
+        {button || "Submit >"}      
       </Button>
+        
     </form>
   );
 };

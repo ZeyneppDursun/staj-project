@@ -2,7 +2,7 @@
 
 import CaseStudyCard from './CaseStudyCard';
 
-const CaseStudyList = ({ studies }) => {
+const CaseStudyList = ({studies}) => {
   return (
     <div className="space-y-20">
       {studies.map((item) => (
